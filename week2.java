@@ -1,76 +1,34 @@
 public class week2 {
-    //ISBNValidator
+    //InventoryCSVParser
 
-    static String normalizeCode(String raw) {
+    static void parseInventoryRecord(String csvLine) {
 
-        raw = raw.trim();
+        String[] fields = csvLine.split(",");
 
-        if (raw.length() < 3) {
-            return raw.toUpperCase();
+        if (fields.length != 3) {
+
+            System.out.println("Invalid Record");
+
+        } else {
+
+            String product = fields[0];
+            String sku = fields[1];
+            String quantity = fields[2];
+
+            System.out.println(
+                "Product: " + product +
+                " | SKU: " + sku +
+                " | Qty: " + quantity
+            );
         }
-
-        String publisher =
-            raw.substring(0, 3).toUpperCase();
-
-        String remaining =
-            raw.substring(3);
-
-        return publisher + remaining;
-    }
-
-    static String validateAndFormat(String code) {
-
-        // Check length
-        if (code.length() != 13) {
-            return "Invalid: wrong length";
-        }
-
-        // Check first 3 characters are letters
-        for (int i = 0; i < 3; i++) {
-
-            if (!Character.isLetter(code.charAt(i))) {
-                return "Invalid: publisher code must be 3 letters";
-            }
-        }
-
-        // Check remaining 10 characters are digits
-        for (int i = 3; i < 13; i++) {
-
-            if (!Character.isDigit(code.charAt(i))) {
-                return "Invalid: body must contain only digits";
-            }
-        }
-
-        String publisher =
-            code.substring(0, 3);
-
-        String year =
-            code.substring(3, 7);
-
-        String catalog =
-            code.substring(7, 13);
-
-        StringBuilder result = new StringBuilder();
-
-        result.append("[")
-              .append(publisher)
-              .append("] YEAR: ")
-              .append(year)
-              .append(" | CATALOG: ")
-              .append(catalog);
-
-        return result.toString();
     }
 
     public static void main(String[] args) {
 
-        String raw = " pen2026004251 ";
+        String csvLine =
+            "Wireless Mouse,WM-2201,150";
 
-        String normalized = normalizeCode(raw);
-
-        String result = validateAndFormat(normalized);
-
-        System.out.println(result);
+        parseInventoryRecord(csvLine);
     }
 }
 
