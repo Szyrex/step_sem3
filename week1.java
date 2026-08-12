@@ -1,34 +1,52 @@
 public class week1 {
-    //SeatDuplicationChecker
+    //TypingAccuracyChecker
 
-    static void checkDuplicateSeats(int[] seatNumbers) {
+    static void checkTypingAccuracy(String original, String typed) {
 
-        boolean foundDuplicate = false;
+        int matched = 0;
+        int firstMismatch = -1;
 
-        for (int i = 0; i < seatNumbers.length; i++) {
+        for (int i = 0; i < original.length(); i++) {
 
-            for (int j = i + 1; j < seatNumbers.length; j++) {
-
-                if (seatNumbers[i] == seatNumbers[j]) {
-
-                    System.out.println(
-                        "Duplicate Seat Number Found: " + seatNumbers[i]
-                    );
-
-                    foundDuplicate = true;
-                }
+            if (original.charAt(i) == typed.charAt(i)) {
+                matched++;
+            } else if (firstMismatch == -1) {
+                firstMismatch = i;
             }
         }
 
-        if (!foundDuplicate) {
-            System.out.println("No Duplicate Seats Found");
+        double accuracy =
+                ((double) matched / original.length()) * 100;
+
+        if (firstMismatch == -1) {
+
+            System.out.printf(
+                "Matched: %d/%d | Accuracy: %.2f%% | No Mismatches%n",
+                matched,
+                original.length(),
+                accuracy
+            );
+
+        } else {
+
+            System.out.printf(
+                "Matched: %d/%d | Accuracy: %.2f%% | " +
+                "First Mismatch at position %d ('%c' vs '%c')%n",
+                matched,
+                original.length(),
+                accuracy,
+                firstMismatch + 1,
+                original.charAt(firstMismatch),
+                typed.charAt(firstMismatch)
+            );
         }
     }
 
     public static void main(String[] args) {
 
-        int[] seats = {101, 102, 103, 102, 105};
+        String original = "hello world";
+        String typed = "hello worlt";
 
-        checkDuplicateSeats(seats);
+        checkTypingAccuracy(original, typed);
     }
 }
